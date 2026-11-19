@@ -93,6 +93,7 @@ button{font-family:inherit;touch-action:manipulation;-webkit-tap-highlight-color
     <h1>Dom przy Wiśniowej</h1>
     <div class="s">Zegar stanął o trzeciej w nocy. Sto lat temu.</div>
     <p>Gra-zagadka z elementami grozy. Każde drzwi otwiera wiedza z matematyki – taka jak na egzaminie ósmoklasisty.</p>
+    <p>Stukaj świecące punkty w pokoju – kryją zagadki. Każda rozwiązana zagadka daje znak i cyfrę. Razem tworzą szyfr do drzwi. Wszystko zapisuje się w Dzienniku.</p>
     <p>Załóż słuchawki. Zgaś światło. Miej pod ręką kartkę i ołówek.</p>
     <button class="go" id="bGo" type="button">WEJDŹ</button>
     <p id="contTxt" style="font-size:16px;margin-top:14px"></p>
@@ -582,7 +583,7 @@ $('#bJ').onclick=()=>{AU.resume();const ch=chapter(),p=openPaper();p.append(el('
   const jr=el('div','jr');ch.spots.filter(s=>s.sym).forEach(s=>{const k=key(ch.id,s.id),e=el('div','e');e.append(H_('b',null,s.sym),el('span',null,S.done[k]?s.name+' → cyfra '+S.dig[k]:s.name+' → ?'));jr.append(e)});p.append(jr);
   if(S.diary.length){p.append(el('p','sub','Kartki z pamiętnika Heleny:'));S.diary.forEach(d=>p.append(H_('div','diary','„'+d+'”')))}
   const r=el('div','row');const c=btn('Zamknij');c.onclick=closePaper;const rs=btn('Zacznij od nowa','sec');let arm=false;
-  rs.onclick=()=>{if(!arm){arm=true;rs.textContent='Na pewno? Kliknij jeszcze raz';return}S={ch:0,done:{},dig:{},diary:[],sound:S.sound,finished:false};save();closePaper();startChapter()};r.append(c,rs);p.append(r)};
+  rs.onclick=()=>{if(!arm){arm=true;rs.textContent='Na pewno? Kliknij jeszcze raz';return}S={ch:0,done:{},dig:{},diary:[],sound:S.sound,finished:false};save();closePaper();quiet();paint(chapter());buildHot();$('#contTxt').textContent='';$('#cover').hidden=false};r.append(c,rs);p.append(r)};
 $('#bS').onclick=()=>{AU.init();AU.resume();AU.setOn(!S.sound);$('#bS').textContent=S.sound?'♪':'♪̸';if(S.sound&&!AU.cur.length)AU.mood(chapter().music)};
 
 /* ---- opowieść ---- */
@@ -608,7 +609,7 @@ if(S.ch>0||Object.keys(S.done).length)$('#contTxt').textContent='Zapisany postę
 $('#bS').textContent=S.sound?'♪':'♪̸';
 const fontsReady=Promise.race([new Promise(r=>setTimeout(r,2500)),new Promise(r=>{const go=()=>{if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('500 20px Caveat','ąćęłńóśźż'),document.fonts.load('600 20px "Cormorant Garamond"','ąćęłńóśźż XIV')]).then(r,r);else r()};setTimeout(go,300)})]);
 fontsReady.then(()=>{paint(chapter());buildHot();requestAnimationFrame(fxLoop)});
-$('#bGo').onclick=()=>{AU.init();AU.resume();$('#cover').hidden=true;if(S.finished){S={ch:0,done:{},dig:{},diary:[],sound:S.sound,finished:false};save()}startChapter()};
+$('#bGo').onclick=()=>{AU.init();AU.resume();if(AU.ctx&&S.sound)AU.ctx.resume().catch(()=>{});$('#cover').hidden=true;if(S.finished){S={ch:0,done:{},dig:{},diary:[],sound:S.sound,finished:false};save()}startChapter()};
 </script>
 </body>
 </html>
