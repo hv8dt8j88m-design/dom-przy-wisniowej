@@ -226,8 +226,10 @@ function candleBody(x,y,s){s=s||1;const holder=g.createLinearGradient(x-24*s,0,x
 function desk(top,face){g.fillStyle='rgba(0,0,0,.6)';g.beginPath();g.ellipse((top[2][0]+top[3][0])/2,face+76,(top[2][0]-top[3][0])*.7,30,0,0,7);g.fill();
   g.save();poly(top);g.clip();g.fillStyle='#2d1b0e';g.fillRect(top[3][0],top[0][1],top[2][0]-top[3][0],face-top[0][1]+4);g.globalAlpha=.75;g.drawImage(T('wood'),0,0,512,160,top[3][0],top[0][1],top[2][0]-top[3][0],face-top[0][1]+6);g.globalAlpha=1;g.restore();
   g.fillStyle='#1a0f07';g.fillRect(top[3][0],face,top[2][0]-top[3][0],H-face);g.fillStyle='rgba(255,200,140,.18)';g.fillRect(top[3][0],face,top[2][0]-top[3][0],3)}
-function noteOn(x,y,rot,l1,l2){g.save();g.translate(x,y);g.rotate(rot);const pp=g.createLinearGradient(-60,-24,60,24);pp.addColorStop(0,'#cfc09a');pp.addColorStop(1,'#9c8c66');g.fillStyle=pp;poly([[-62,-22],[60,-26],[64,22],[-58,26]]);g.fill();
-  g.fillStyle='#2a1e12';g.font='500 17px Caveat, cursive';g.textAlign='left';g.textBaseline='middle';g.fillText(l1,-54,-8);if(l2)g.fillText(l2,-54,12);g.restore()}
+function noteOn(x,y,rot,lines){g.save();g.translate(x,y);g.rotate(rot);g.font='500 16px Caveat, cursive';
+  const w=Math.max(...lines.map(l=>g.measureText(l).width))+24,h=lines.length*17+14,hw=w/2,hh=h/2;
+  const pp=g.createLinearGradient(-hw,-hh,hw,hh);pp.addColorStop(0,'#cfc09a');pp.addColorStop(1,'#9c8c66');g.fillStyle=pp;poly([[-hw,-hh+2],[hw-2,-hh-2],[hw+2,hh-2],[-hw+4,hh+2]]);g.fill();
+  g.fillStyle='#2a1e12';g.textAlign='left';g.textBaseline='middle';lines.forEach((l,i)=>g.fillText(l,-hw+12,-hh+15+i*17));g.restore()}
 function book(x,y,rot,col){g.save();g.translate(x,y);g.rotate(rot);g.fillStyle=col||'#2a0c0c';g.fillRect(-58,-20,116,38);g.fillStyle='#d6c9a8';g.fillRect(-56,16,112,6);g.fillStyle='rgba(0,0,0,.3)';g.fillRect(-58,-24,116,8);g.strokeStyle='rgba(200,160,90,.5)';g.lineWidth=1;g.strokeRect(-48,-16,96,26);g.restore()}
 function bookshelf(x0,x1,y0,y1,seed){g.fillStyle='#1a0f07';g.fillRect(x0-8,y0-10,x1-x0+16,y1-y0+10);const rows=5,rh=(y1-y0)/rows,cols=['#4a1414','#1f3320','#1c2340','#5a4318','#3a2412','#2c1b2e','#5a2a14','#242424'];
   for(let r=0;r<rows;r++){const sy=y0+r*rh;g.fillStyle='#0b0704';g.fillRect(x0,sy,x1-x0,rh-6);let x=x0+2,i=0;
@@ -262,7 +264,7 @@ function lightPass(lights,amb){const off=document.createElement('canvas');off.wi
 const SCENES={
 gabinet(){room({wall:'paper',floor:'wood'});curtain(342,398,128,425);windowRect(384,150,142,214);
   mirror(690,238,50,68);chalk('2x + ? = ?x − ?',540,372,32,-.035);clockTall(826,168,76,272);doorRight(1012,1132);
-  desk([[700,548],[1016,548],[1100,628],[628,628]],628);book(760,575,-.12);noteOn(862,592,.07,'kąt między wskazówkami','podziel przez 30…');candleBody(952,512);
+  desk([[700,548],[1016,548],[1100,628],[628,628]],628);book(760,575,-.12);noteOn(864,588,.07,['kąt między','wskazówkami','podziel przez 30…']);candleBody(952,512);
   moonBeam(384,150,142,[[402,500],[560,500],[640,650],[380,676]]);
   lightPass([{x:952,y:490,r:560,c:[255,200,140],k:.95},{x:470,y:300,r:330,c:[120,140,190],k:.45},{x:500,y:600,r:200,c:[110,130,180],k:.3}])},
 biblioteka(){room({wall:'panel',floor:'wood',ceil:.4});bookshelf(350,600,150,440,3);
