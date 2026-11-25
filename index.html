@@ -97,6 +97,7 @@ button{font-family:inherit;touch-action:manipulation;-webkit-tap-highlight-color
     <p>Załóż słuchawki. Zgaś światło. Miej pod ręką kartkę i ołówek.</p>
     <button class="go" id="bGo" type="button">WEJDŹ</button>
     <p id="contTxt" style="font-size:16px;margin-top:14px"></p>
+    <p style="font-size:14px;font-style:italic;color:#c9b07a;margin-top:18px;line-height:1.5">Gra powstała dla <b>Leny Stolarskiej</b>.<br>Zrobił ją tata – <b>Darek Stolarski</b>.</p>
   </div>
 </div>
 <div id="toast"></div>
@@ -595,7 +596,7 @@ function startChapter(){const ch=chapter();paint(ch);buildHot();AU.mood(ch.music
   if(!S['seen_'+ch.id]){story(ch.num,ch.title,ch.intro,()=>{S['seen_'+ch.id]=1;save()})}}
 function ending(){S.finished=true;save();AU.heart(false);
   const o=document.createElement('canvas');o.width=W;o.height=H;const k=o.getContext('2d');k.drawImage(bg,0,0);let a=0;const iv=setInterval(()=>{a+=.02;g.drawImage(o,0,0);g.fillStyle='rgba(255,236,200,'+Math.min(a,.85)+')';g.fillRect(0,0,W,H);if(a>=.85)clearInterval(iv)},60);
-  AU.good();setTimeout(()=>story('Epilog','Helena odpoczywa',['Pozytywka otwiera się z cichym kliknięciem. Gra melodię, której nikt nie słyszał od stu lat.','W blasku świec stoi dziewczyna w ciemnej sukience. Po raz pierwszy się uśmiecha.','„Rozwiązałaś moje ostatnie zadanie. Liczby nie kłamią – a ty ich nie zawiodłaś.”','Gdzieś na dole zegar zaczyna tykać. Jest 3:01.','KONIEC'],()=>{$('#cover').hidden=false;$('#contTxt').textContent='Ukończono grę. Możesz zacząć od nowa w Dzienniku.'}),2200)}
+  AU.good();setTimeout(()=>story('Epilog','Helena odpoczywa',['Pozytywka otwiera się z cichym kliknięciem. Gra melodię, której nikt nie słyszał od stu lat.','W blasku świec stoi dziewczyna w ciemnej sukience. Po raz pierwszy się uśmiecha.','„Rozwiązałaś moje ostatnie zadanie. Liczby nie kłamią – a ty ich nie zawiodłaś.”','Gdzieś na dole zegar zaczyna tykać. Jest 3:01.','KONIEC','Gra powstała dla Leny Stolarskiej. Zrobił ją tata – Darek Stolarski.'],()=>{$('#cover').hidden=false;$('#contTxt').textContent='Ukończono grę. Możesz zacząć od nowa w Dzienniku.'}),2200)}
 
 /* ---- cisza, gdy strona nie jest widoczna (inna karta, zamknięcie, iPad w tle) ---- */
 function quiet(){if(AU.ctx&&AU.ctx.state==='running')AU.ctx.suspend().catch(()=>{});AU.heart(false)}
